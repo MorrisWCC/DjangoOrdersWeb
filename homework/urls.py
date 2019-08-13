@@ -14,6 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.views import static
+from django.conf import settings
+from django.conf.urls import url
 from django.urls import path
 from web import views
 
@@ -23,5 +26,7 @@ urlpatterns = [
     path('order/', views.create_order, name='create_order'),
     path('order/<str:order_id>', views.delete_order, name='delete_order'),
     path('stat/order', views.get_order_stat, name='get_order_stat'),
-    path('stat/shop', views.get_shop_stat, name='get_shop_stat')
+    path('stat/shop', views.get_shop_stat, name='get_shop_stat'),
+    url(r'^static/(?P<path>.*)$', static.serve,
+      {'document_root': settings.STATICFILES_DIRS[0]}, name='static'),
 ]
