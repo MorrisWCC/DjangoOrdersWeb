@@ -20,8 +20,8 @@ from web import views
 urlpatterns = [
     path('', views.index),
     path('admin/', admin.site.urls),
-    path('order/', views.create_order),
-    path('order/<str:order_id>', views.delete_order),
-    path('stat/order', views.get_order_stat),
-    path('stat/shop', views.get_shop_stat)
+    path('order/', views.create_order, name='create_order'),
+    path('order/<str:order_id>', views.delete_order, name='delete_order'),
+    path('stat/order', views.get_order_stat, name='get_order_stat'),
+    path('stat/shop', views.get_shop_stat, name='get_shop_stat')
 ]
