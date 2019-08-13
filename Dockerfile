@@ -3,8 +3,7 @@ RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt /code/
 COPY migration.sh /code/
-RUN pip3 install --no-cache-dir -r requirements.txt
-CMD ["migration.sh"]
+RUN pip3 install -r requirements.txt
+RUN chmod +x /code/migration.sh
 COPY . /code/
-
 
