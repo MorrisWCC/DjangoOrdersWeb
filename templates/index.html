@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>INDEX</title>
+{% load static %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js">
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="{% static 'js/ajax_functions.js' %}"></script>
+<style>
+#whole_div{
+    width: 100%;
+    position: absolute;
+    top: 100px;
+    left: 400px;
+}
+#system_console{
+    color: red;
+    font-weight: bold;
+    font-size:20px;
+}
+#button{
+    border-radius: 50em;
+    border: 1px;
+}
+#delete_btn{
+    border-radius: 50em;
+    border: 1px;
+}
+#top3_info{
+    font-family: DFKai-sb;
+    font-weight: bold;
+    font-size: 20px;
+}
+#top3_btn{
+    width: 100px;
+    height: 100px;
+    border-radius: 30em;
+    border: 1px;
+}
+</style>
+</head>
+<body>
+<div id='whole_div'>
+    <div id='system_console'>
+    </div>
+    <div id='select_item'>
+        <select class='selected_item'>
+            <option value="" disabled selected>Select Product</option>
+            {% for product in products %}
+            <option>{{ product.product_id }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div id='purchase_number'>
+        <form>
+        {% csrf_token %}
+        <input type="text" placeholder="數量" id='purchase_num' name='purchase_num'>
+        <input type="checkbox" id="is_vip" name="is_vip"> 是否是VIP身分
+        <input type="text" placeholder="Customer ID" id="customer_id" name="customer_id">
+        <button onclick="create_order()" id='button' type="button"> ＋ </button>
+        </form>
+    </div>
+    <div id='tables'>
+        <table id="product" class="table table-striped" style="width:50%">
+            <thead>
+                <tr>
+                {%for product_info_value in product_info%}
+                    <th>{{product_info_value}}</th>
+                {%endfor%}
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr id='product-{{product.product_id}}'>
+                    {%for product_info_value in product.values%}
+                    <td>
+                        {% if product_info_value == True %}&#10004;
+                        {% elif product_info_value == False%}&times;
+                        {% else %}{{product_info_value}}
+                        {% endif %}
+                    </td>
+                    {%endfor%}
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        <table id="order_history" class="table table-striped" style="width:50%">
+            <thead>
+                <tr>
+                {%for order_info_value in order_info%}
+                    <th>{{order_info_value}}</th>
+                {%endfor%}
+                <th>customer id</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr id='order-{{order.order_id}}'>
+                    {%for order_info_value in order.values%}
+                    <td>{{order_info_value}}</td>
+                    {%endfor%}
+                    <td>Missing Customer ID</td>
+                    <td><button onclick="delete_order('{{order.order_id}}')" class="delete_btn" >－</button></td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        <div id="get_order_static">
+            <div id="top3_info"></div>
+            <button onclick="get_order_static()" id="top3_btn" >TOP 3</button>
+        </div>
+    </div>
+</div>
+</body>
