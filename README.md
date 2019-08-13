@@ -7,7 +7,9 @@
     - 5. python3 manage.py shell < insert_default_records.py
     - 6. python3 manage.py runserver [ip]:[port]
     - 7. Connect to [ip]:[port] to see the page.
-
+- Deploy by Docker steps:
+    - 1.docker-compose up --build
+    - 2.Connect to [ip]:8000 to see the page.
 - Testing steps:
     - python3 manage.py test
 
